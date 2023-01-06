@@ -1,1 +1,0 @@
-docker run -it --rm -p 5555:5555 --name genweb nikitosl/jokes-generator-web:latest

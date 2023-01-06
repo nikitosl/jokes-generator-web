@@ -1,0 +1,1 @@
+docker compose --project-name jokes-generator-webserver up
