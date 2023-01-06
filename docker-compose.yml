@@ -2,7 +2,6 @@ version: '3.9'
 services:
   genapi:
     build: api
-    cpus: 5.0
 
   genweb:
     build: web
