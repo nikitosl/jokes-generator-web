@@ -23,6 +23,6 @@ Service listen 8888 port and gets next params as input from post request:
 Simple web-form on Flask to work with model.  
 User fill in setup and inspiration (optional) and gets generated punch with mark.
 
-# Deploy 
-Service deploy by docker-compose. For details check _docker-compose.yml_.  
-Run ```bash deploy.sh``` for deploy.
+# Run 
+Service runs using docker-compose with command ```bash deploy.sh```.  
+For details check _docker-compose.yml_.
