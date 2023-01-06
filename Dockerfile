@@ -2,6 +2,8 @@ FROM python:3.9-slim
 COPY ./app.py /joke_gen/
 COPY ./test_model_api.py /joke_gen/
 COPY ./requirements.txt /joke_gen/
+COPY ./static /joke_gen/static
+COPY ./templates /joke_gen/templates
 
 ENV PYTHONPATH=/joke_gen
 ENV FLASK_APP=app.py
