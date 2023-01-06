@@ -70,7 +70,8 @@ def index():
             result = request_punches(setup, inspiration, num_return_sequences=1, temperature=1)
             form.punch.data = result[0]['punch']
             form.mark.data = result[0]['mark']
-        except requests.exceptions.ConnectionError:
+        except (requests.exceptions.ConnectionError,
+                requests.exceptions.InvalidSchema):
             error_message = 'Sorry, model is not available now. Try again later'
             del form.punch
             del form.mark
@@ -90,4 +91,4 @@ if __name__ == '__main__':
     except:
         logging.warning('Check model api it raised error when request')
 
-    app.run(port=5555)
+    app.run(host='0.0.0.0', port=5555)
