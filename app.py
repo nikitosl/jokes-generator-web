@@ -21,7 +21,7 @@ Bootstrap(app)
 model_url = 'genapi:8888/'
 
 def request_punches(setup, inspiration, num_return_sequences, temperature):
-    response = requests.post(url=f'{model_url}test_predict',
+    response = requests.post(url=f'{model_url}predict',
                              json={'setup': setup,
                                    'inspiration': inspiration,
                                    'num_return_sequences': num_return_sequences,
