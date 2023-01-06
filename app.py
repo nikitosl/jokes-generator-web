@@ -18,7 +18,7 @@ app.config['SECRET_KEY'] = '95AE5CBC5BCBF46D943C8387B7E5D'
 # Flask-Bootstrap requires this line
 Bootstrap(app)
 
-model_url = 'genapi:8888/'
+model_url = 'http://genapi:8888/'
 
 def request_punches(setup, inspiration, num_return_sequences, temperature):
     response = requests.post(url=f'{model_url}predict',
@@ -68,14 +68,17 @@ def index():
 
         try:
             result = request_punches(setup, inspiration, num_return_sequences=1, temperature=1)
+            if len(form.inspiration.data) == 0:
+                form.inspiration.data = result[0]['inspiration']
             form.punch.data = result[0]['punch']
             form.mark.data = result[0]['mark']
         except (requests.exceptions.ConnectionError,
-                requests.exceptions.InvalidSchema):
+                requests.exceptions.InvalidSchema) as e:
+            logging.error('Got error when trying to get predictions')
+            logging.error(e)
             error_message = 'Sorry, model is not available now. Try again later'
             del form.punch
             del form.mark
-
         return render_template('index.html', form=form, error_message=error_message)
 
     del form.punch
