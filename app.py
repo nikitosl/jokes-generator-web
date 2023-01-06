@@ -90,4 +90,4 @@ if __name__ == '__main__':
     except:
         logging.warning('Check model api it raised error when request')
 
-    app.run(port=5000)
+    app.run(port=5555)
