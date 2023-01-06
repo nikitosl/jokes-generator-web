@@ -10,10 +10,10 @@ Train dataset preprocessing repo: https://github.com/nikitosl/jokes-generator-da
 
 ## Api
 
-Micro-service for hosting NLP generative model (T5).   
-Uses Flask for model hosting.
+Micro-service for hosting NLP generative model (T5). Uses Flask for model hosting.  
+Now the weights of the model are simply copied to the container at build time. Plans to fix later.
 
-Service listen 8888 port and has next interface:
+Service listen 8888 port and gets next params as input from post request:
 - _setup_ (required) - the beginning of joke you want to get punch for.
 - _inspiration_ (optional, default=None) - inspiration for punch.
 - _num_return_sequences_ (optional, default=1) - number of punches to generate.
