@@ -67,7 +67,7 @@ def index():
         inspiration = inspiration if len(inspiration) > 0 else None
 
         try:
-            result = request_punches(setup, inspiration, num_return_sequences=3, temperature=1)
+            result = request_punches(setup, inspiration, num_return_sequences=1, temperature=0.9)
             if len(form.inspiration.data) == 0:
                 form.inspiration.data = result[0]['inspiration']
             form.punch.data = result[0]['punch']
