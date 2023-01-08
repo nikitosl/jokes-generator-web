@@ -1,9 +1,11 @@
 version: '3.9'
 services:
   genapi:
+    image: nikitosl/jokes-generation-api
     build: api
 
   genweb:
+    image: nikitosl/jokes-generation-web
     build: web
     depends_on:
       - genapi
