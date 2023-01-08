@@ -19,9 +19,9 @@ class T5GenerationModel:
     def load_model_from_hub(self,
                             model_name,
                             model_type,
-                            force_download,
-                            use_auth_token,
-                            revision):
+                            force_download=True,
+                            use_auth_token=False,
+                            revision=None):
 
         self.tokenizer = T5Tokenizer.from_pretrained(model_name,
                                                      from_flax=model_type == "flax",

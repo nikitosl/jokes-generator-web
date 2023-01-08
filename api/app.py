@@ -61,6 +61,10 @@ if __name__ == '__main__':
     logging.debug('Starting loading model')
     # model variable refers to the global variable
     model = T5GenerationModel()
-    model.load_model_from_file('model_weights/')
+    model.load_model_from_hub(model_name="naltukhov/joke-generator-rus-t5",
+                              model_type="pytorch",
+                              use_auth_token=False,
+                              force_download=True,
+                              revision=None)
     logging.debug('Model was successfully loaded!')
     app.run(host='0.0.0.0', port=8888)
