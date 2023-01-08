@@ -1,11 +1,16 @@
 --extra-index-url https://download.pytorch.org/whl/cpu
 Flask==2.2.2
-huggingface-hub
-transformers
-sentencepiece
+pandas
 
 torch==1.13.1
 torchvision==0.14.1
 torchaudio==0.13.1
 
-pandas==1.5.2
+huggingface-hub
+sentencepiece==0.1.97
+transformers
+flax
+jax
+
+# Current blocker is that jax not supported linux library for ARM64
+# https://github.com/google/jax/issues/7097

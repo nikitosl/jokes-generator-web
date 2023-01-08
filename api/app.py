@@ -58,9 +58,16 @@ def get_prediction() -> List[Dict]:
 
 
 if __name__ == '__main__':
-    logging.debug('Starting loading model')
+    logging.debug('Starting downloading model')
     # model variable refers to the global variable
     model = T5GenerationModel()
-    model.load_model_from_file('model_weights/')
-    logging.debug('Model was successfully loaded!')
+    # model.load_model_from_file('model_weights/')
+
+    model.load_model_from_hub(model_name="naltukhov/joke-generator-t5-rus-finetune",
+                              model_type="flax",
+                              revision="a001d2b3c44d193f489f2e3704ca13776a57a43b",
+                              use_auth_token=False,
+                              force_download=True)
+
+    logging.debug('Model was successfully downloaded!')
     app.run(host='0.0.0.0', port=8888)
