@@ -1,0 +1,3 @@
+requests
+newsapi-python
+python-telegram-bot
