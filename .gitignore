@@ -2,4 +2,7 @@
 /venv
 *.json
 
+.DS_Store
+api/model_weights*
+
 deploy_secret_comand.sh
