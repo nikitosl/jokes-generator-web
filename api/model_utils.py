@@ -88,5 +88,8 @@ class T5GenerationModel:
                 mark = self.generate_mark(joke)
                 result_list.append((setup, inspiration, punch, mark))
 
-        sorted_result_list = sorted(result_list, key=lambda tup: tup[3], reverse=True)[:num_return_sequences]
+        # Sort by mark and len of punch in descending order
+        sorted_result_list = sorted(result_list,
+                                    key=lambda tup: (tup[3], len(tup[2])),
+                                    reverse=True)[:num_return_sequences]
         return sorted_result_list
