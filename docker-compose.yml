@@ -1,5 +1,15 @@
 version: '3.9'
 services:
+  tgapi:
+    image: nikitosl/jokes-generator-tgapi
+    build: tg
+    depends_on:
+      - genapi
+      - genweb
+    environment:
+      TG_API_TOKEN: ${TG_API_TK}
+      NEWS_API_TOKEN: ${NEWS_API_TK}
+
   genapi:
     image: nikitosl/jokes-generation-api
     build: api
