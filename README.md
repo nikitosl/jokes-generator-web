@@ -24,5 +24,8 @@ Simple web-form on Flask to work with model.
 User fill in setup and inspiration (optional) and gets generated punch with mark.
 
 # Run 
-Service runs using docker-compose with command ```bash deploy.sh```.  
+Create .env file in project root folder with next variables:  
+- TG_API_TK=`<api token for telegram bot>`
+- NEWS_API_TK=`<api token for newsapi>`
+Service runs using docker-compose with command `bash deploy.sh`.  
 For details check _docker-compose.yml_.
