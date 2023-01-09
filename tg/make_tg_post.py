@@ -1,3 +1,5 @@
+import datetime
+
 from newsapi import NewsApiClient
 import requests
 import os
@@ -119,16 +121,22 @@ if __name__ == '__main__':
     logging.debug(f'Got {tg_api_token} as token for tg api')
 
     logging.info("Waiting model start")
-    # wait_model_starting()
+    wait_model_starting()
     logging.info("Model started")
 
     runs_counter = 0
     while True:
+        current_hour = datetime.datetime.now().hour
+        if (current_hour < 9) or (current_hour > 23):
+            logging.info('Sleeping...')
+            time.sleep(60 * 60)
+            continue
+
         logging.debug(f'----------- Run #{runs_counter} -----------')
         try:
             main(news_api_token, tg_api_token)
         except Exception as e:
             logging.error(f'While running main function error raised: {e}')
 
-        time.sleep(5 * 60)  # Sleep time in seconds
+        time.sleep(10 * 60)  # Sleep time in seconds
         runs_counter += 1
