@@ -19,10 +19,10 @@ previous_news_post_time = None
 
 
 def get_news(api_token):
-    response = requests.get("https://newsapi.org/v2/top-headlines",
+    response = requests.get("https://newsapi.org/v2/everything",
                             params={'apiKey': api_token,
                                     'language': 'ru',
-                                    'country': 'ru',
+                                    'sortBy': 'publishedAt',
                                     'page': 1,
                                     'page_size': 1})
 
