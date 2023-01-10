@@ -9,13 +9,13 @@ services:
     environment:
       TG_API_TOKEN: ${TG_API_TK}
       NEWS_API_TOKEN: ${NEWS_API_TK}
-      TZ: Asia/Tbilisi
+      TZ: ${TZ}
 
   genapi:
     image: nikitosl/jokes-generation-api
     build: api
     environment:
-      TZ: Asia/Tbilisi
+      TZ: ${TZ}
 
   genweb:
     image: nikitosl/jokes-generation-web
@@ -25,4 +25,4 @@ services:
     ports:
       - "5555:5555"
     environment:
-      TZ: Asia/Tbilisi
+      TZ: ${TZ}

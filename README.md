@@ -11,7 +11,7 @@ Train dataset preprocessing repo: https://github.com/nikitosl/jokes-generator-da
 ## Api
 
 Micro-service for hosting NLP generative model (T5). Uses Flask for model hosting.  
-Now the weights of the model are simply copied to the container at build time. Plans to fix later.
+Model weights download from huggingface model repo when container start. It takes time.
 
 Service listen 8888 port and gets next params as input from post request:
 - _setup_ (required) - the beginning of joke you want to get punch for.
@@ -27,5 +27,6 @@ User fill in setup and inspiration (optional) and gets generated punch with mark
 Create .env file in project root folder with next variables:  
 - TG_API_TK=`<api token for telegram bot>`
 - NEWS_API_TK=`<api token for newsapi>`
+- TZ=`<current time zone>`
 Service runs using docker-compose with command `bash deploy.sh`.  
 For details check _docker-compose.yml_.
