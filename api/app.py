@@ -26,7 +26,7 @@ def get_test_prediction() -> List[Dict]:
 
         result_template = [{'setup': setup,
                             'inspiration': inspiration if inspiration else 'inspiration_template',
-                            'punch': 'шаблон для панча на русском',
+                            'punch': 'Как тебе такое, Илон Маск, у которого есть педпед?',
                             'mark': '0'}]
 
         return result_template
