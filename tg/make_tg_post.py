@@ -18,6 +18,18 @@ model_url = 'http://genapi:8888/'
 previous_news_post_time = None
 
 
+def wait_model_starting():
+    while True:
+        try:
+            response = requests.get(model_url)
+        except:
+            pass
+        else:
+            if response.status_code == 200:
+                return True
+        time.sleep(60)
+
+
 def get_news(api_token):
     response = requests.get(
         "https://newsapi.org/v2/everything",
@@ -38,36 +50,7 @@ def get_news(api_token):
             return title, time, source, link
 
 
-def make_tg_post(tg_api_token, title, punch, mark=0):
-    post_text = f"""<strong>{title}</strong>\n{punch}"""
-
-    response = requests.get(f"https://api.telegram.org/bot{tg_api_token}/sendMessage",
-                            params={"chat_id": "@AIFunnyNews",
-                                    "text": post_text,
-                                    "parse_mode": "HTML"})
-    if response.status_code == 200:
-        return post_text
-
-
-def wait_model_starting():
-    while True:
-        try:
-            response = requests.get(model_url)
-        except:
-            pass
-        else:
-            if response.status_code == 200:
-                return True
-        time.sleep(60)
-
-
-def request_punch_mark(nes):
-    response = [('Не Пугачева: дочь Галкина растет копией его любимой женщины - Экспресс газета', 'илон маск', 'Как тебе такое, Илон Маск, у которого есть педпед?', '1'), ('Не Пугачева: дочь Галкина растет копией его любимой женщины - Экспресс газета', 'поздравлять', 'Поздравляю, товарищи, что я за гей, то и говна!', '1'), ('Не Пугачева: дочь Галкина растет копией его любимой женщины - Экспресс газета', 'поздравлять', 'Поздравляю с Галкина, а не на что смотреть.', '1'), ('Не Пугачева: дочь Галкина растет копией его любимой женщины - Экспресс газета', 'поздравлять', 'Поздравляю, а кто же это "забыл" от вас?', '1'), ('Не Пугачева: дочь Галкина растет копией его любимой женщины - Экспресс газета', 'поздравлять', 'Поздравляю, я твоя мать - Алексей.', '1')]
-    punch_tuple = response[0]
-    return punch_tuple[2], punch_tuple[3]
-
-
-def request_punch_mark_t(news):
+def request_punch_mark(news):
     """
 
     :param news:
@@ -84,6 +67,23 @@ def request_punch_mark_t(news):
         punches = response.json()
         logging.debug(f"Got from model: {punches}")
         return punches[0]['punch'], punches[0]['mark']
+
+
+def make_tg_post(tg_api_token, title, punch, mark=0):
+    post_text = f"""<strong>{title}</strong>\n{punch}"""
+
+    response = requests.get(f"https://api.telegram.org/bot{tg_api_token}/sendMessage",
+                            params={"chat_id": "@AIFunnyNews",
+                                    "text": post_text,
+                                    "parse_mode": "HTML"})
+    if response.status_code == 200:
+        return post_text
+
+
+# def request_punch_mark_test(news):
+#     response = [('Не Пугачева: дочь Галкина растет копией его любимой женщины - Экспресс газета', 'илон маск', 'Как тебе такое, Илон Маск, у которого есть педпед?', '1'), ('Не Пугачева: дочь Галкина растет копией его любимой женщины - Экспресс газета', 'поздравлять', 'Поздравляю, товарищи, что я за гей, то и говна!', '1'), ('Не Пугачева: дочь Галкина растет копией его любимой женщины - Экспресс газета', 'поздравлять', 'Поздравляю с Галкина, а не на что смотреть.', '1'), ('Не Пугачева: дочь Галкина растет копией его любимой женщины - Экспресс газета', 'поздравлять', 'Поздравляю, а кто же это "забыл" от вас?', '1'), ('Не Пугачева: дочь Галкина растет копией его любимой женщины - Экспресс газета', 'поздравлять', 'Поздравляю, я твоя мать - Алексей.', '1')]
+#     punch_tuple = response[0]
+#     return punch_tuple[2], punch_tuple[3]
 
 
 def main(news_api_token, tg_api_token):
@@ -123,7 +123,7 @@ if __name__ == '__main__':
     logging.debug(f'Got {tg_api_token} as token for tg api')
 
     logging.info("Waiting model start")
-    # wait_model_starting()
+    wait_model_starting()
     logging.info("Model started")
 
     runs_counter = 0
