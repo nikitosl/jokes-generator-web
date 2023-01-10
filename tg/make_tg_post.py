@@ -19,12 +19,14 @@ previous_news_post_time = None
 
 
 def get_news(api_token):
-    response = requests.get("https://newsapi.org/v2/everything",
-                            params={'apiKey': api_token,
-                                    'language': 'ru',
-                                    'sortBy': 'publishedAt',
-                                    'page': 1,
-                                    'page_size': 1})
+    response = requests.get(
+        "https://newsapi.org/v2/everything",
+        params={'apiKey': api_token,
+                'language': 'ru',
+                'sortBy': 'publishedAt',
+                'page': 1,
+                'page_size': 1,
+                'domains': 'rbc.ru,Kommersant.ru,Cnews.ru,Forklog.com,3dnews.ru,Moslenta.ru,Kinoafisha.info'})
 
     if response.status_code == 200:
         headline = response.json()
@@ -121,7 +123,7 @@ if __name__ == '__main__':
     logging.debug(f'Got {tg_api_token} as token for tg api')
 
     logging.info("Waiting model start")
-    wait_model_starting()
+    # wait_model_starting()
     logging.info("Model started")
 
     runs_counter = 0
