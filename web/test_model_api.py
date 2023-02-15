@@ -1,4 +1,18 @@
+import time
+
 import requests
+
+
+def wait_model_starting(model_url):
+    while True:
+        try:
+            response = requests.get(model_url)
+        except:
+            pass
+        else:
+            if response.status_code == 200:
+                return True
+        time.sleep(60)
 
 
 def test_model_api(url):

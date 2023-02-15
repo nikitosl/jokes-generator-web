@@ -1,24 +1,28 @@
 import requests
+import os
 from flask import Flask, render_template
-from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField
 from wtforms import validators
-from test_model_api import test_model_api
+from test_model_api import test_model_api, wait_model_starting
 import logging
 import sys
+
 logging.basicConfig(format='%(asctime)s:%(name)s:%(levelname)s:%(message)s',
                     stream=sys.stdout,
                     level=logging.DEBUG)
 
+secret_key = os.getenv("FLASK_SECRET_KEY")
+model_url = os.getenv("MODEL_URL")
+logging.debug(f'Got model_url from env: {model_url}')
+
 app = Flask(__name__)
 # Flask-WTF requires an encryption key - the string can be anything
-app.config['SECRET_KEY'] = '95AE5CBC5BCBF46D943C8387B7E5D'
+app.config['SECRET_KEY'] = secret_key
 # Flask-Bootstrap requires this line
 Bootstrap(app)
 
-model_url = 'http://genapi:8888/'
 
 def request_punches(setup, inspiration, num_return_sequences, temperature):
     response = requests.post(url=f'{model_url}predict',
@@ -87,6 +91,9 @@ def index():
 
 
 if __name__ == '__main__':
+    # Wait model_api to start
+    wait_model_starting(model_url)
+
     # Test model api
     try:
         if not test_model_api(model_url):

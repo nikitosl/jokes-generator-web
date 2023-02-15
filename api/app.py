@@ -1,8 +1,12 @@
-from typing import List, Dict
-from flask import Flask, request
-from model_utils import T5GenerationModel
 import logging
+import os
 import sys
+from typing import List, Dict
+
+from flask import Flask, request
+
+from model_utils import T5GenerationModel
+
 logging.basicConfig(format='%(asctime)s:%(name)s:%(levelname)s:%(message)s',
                     stream=sys.stdout,
                     level=logging.DEBUG)
@@ -59,12 +63,23 @@ def get_prediction() -> List[Dict]:
 
 if __name__ == '__main__':
     logging.debug('Starting loading model')
+
+    revision = os.getenv("MODEL_REVISION")
+    if revision == "latest":
+        revision = None
+    else:
+        logging.debug(f'Got revision from env: {revision}')
+    model_name = os.getenv("MODEL_NAME")
+    logging.debug(f'Got model_name from env: {model_name}')
+    port = os.getenv("MODEL_API_PORT")
+    logging.debug(f'Got port from env: {port}')
+
     # model variable refers to the global variable
     model = T5GenerationModel()
-    model.load_model_from_hub(model_name="naltukhov/joke-generator-rus-t5",
+    model.load_model_from_hub(model_name=model_name,
                               model_type="pytorch",
                               use_auth_token=False,
                               force_download=True,
-                              revision=None)
+                              revision=revision)
     logging.debug('Model was successfully loaded!')
-    app.run(host='0.0.0.0', port=8888)
+    app.run(host='0.0.0.0', port=port)

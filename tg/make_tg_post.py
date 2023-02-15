@@ -1,24 +1,18 @@
 import datetime
-
-from newsapi import NewsApiClient
-import requests
-import os
-import telegram
 import logging
+import os
 import sys
 import time
-import json
+
+import requests
 
 logging.basicConfig(format='%(asctime)s:%(name)s:%(levelname)s:%(message)s',
                     stream=sys.stdout,
                     level=logging.DEBUG)
 
-# Init
-model_url = 'http://genapi:8888/'
 previous_news_post_time = None
 
-
-def wait_model_starting():
+def wait_model_starting(model_url):
     while True:
         try:
             response = requests.get(model_url)
@@ -50,7 +44,7 @@ def get_news(api_token):
             return title, time, source, link
 
 
-def request_punch_mark(news):
+def request_punch_mark(news, model_url):
     """
 
     :param news:
@@ -86,7 +80,7 @@ def make_tg_post(tg_api_token, title, punch, mark=0):
 #     return punch_tuple[2], punch_tuple[3]
 
 
-def main(news_api_token, tg_api_token):
+def main(news_api_token, tg_api_token, model_url):
     # Get last news
     news = get_news(news_api_token)
     if not news:
@@ -103,7 +97,7 @@ def main(news_api_token, tg_api_token):
     logging.info('Checked news publish time is not equal to previous publish time')
 
     # Get punch
-    punch, mark = request_punch_mark(title)
+    punch, mark = request_punch_mark(title, model_url)
     mark = int(mark)
     logging.info('Got punch and mark for news')
 
@@ -118,12 +112,14 @@ def main(news_api_token, tg_api_token):
 
 if __name__ == '__main__':
     news_api_token = os.getenv('NEWS_API_TOKEN')
-    logging.debug(f'Got {news_api_token} as token for news api')
+    logging.debug(f'Got news_api_token from env: {news_api_token}')
     tg_api_token = os.getenv('TG_API_TOKEN')
-    logging.debug(f'Got {tg_api_token} as token for tg api')
+    logging.debug(f'Got tg_api_token from env: {tg_api_token}')
+    model_url = os.getenv("MODEL_URL")
+    logging.debug(f'Got model_url from env: {model_url}')
 
     logging.info("Waiting model start")
-    wait_model_starting()
+    wait_model_starting(model_url)
     logging.info("Model started")
 
     runs_counter = 0
@@ -136,7 +132,7 @@ if __name__ == '__main__':
 
         logging.debug(f'----------- Run #{runs_counter} -----------')
         try:
-            main(news_api_token, tg_api_token)
+            main(news_api_token, tg_api_token, model_url)
         except Exception as e:
             logging.error(f'While running main function error raised: {e}')
 
