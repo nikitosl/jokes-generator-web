@@ -3,8 +3,6 @@ steps:
     args:
       [ "build", "-t", "gcr.io/${PROJECT_ID}/jokes-generator-tg-api:${REVISION_ID}", "tg" ]
     env:
-      - 'TG_API_TOKEN=$$TG_API_TOKEN'
-      - 'NEWS_API_TOKEN=$$NEWS_API_TOKEN'
       - 'MODEL_URL=http://model_api:8888/'
       - 'TZ=Asia/Tbilisi'
     secretEnv: [ 'TG_API_TOKEN', 'NEWS_API_TOKEN' ]
@@ -14,7 +12,6 @@ steps:
       [ "build", "-t", "gcr.io/${PROJECT_ID}/jokes-generator-web:${REVISION_ID}", "web" ]
     env:
       - 'MODEL_URL=http://model_api:8888/'
-      - 'FLASK_SECRET_KEY=$$FLASK_SECRET_KEY'
       - 'TZ=Asia/Tbilisi'
     secretEnv: [ 'FLASK_SECRET_KEY' ]
 
@@ -36,12 +33,12 @@ images:
 
 availableSecrets:
   secretManager:
-    - versionName: projects/$PROJECT_ID/secrets/TG_API_TOKEN/versions/latest
-      env: 'TG_API_TOKEN'
-    - versionName: projects/$PROJECT_ID/secrets/NEWS_API_TOKEN/versions/latest
-      env: 'NEWS_API_TOKEN'
-    - versionName: projects/$PROJECT_ID/secrets/FLASK_SECRET_KEY/versions/latest
-      env: 'FLASK_SECRET_KEY'
+    - versionName: projects/${PROJECT_ID}/secrets/TG_API_TOKEN/versions/latest
+      env: TG_API_TOKEN
+    - versionName: projects/${PROJECT_ID}/secrets/NEWS_API_TOKEN/versions/latest
+      env: NEWS_API_TOKEN
+    - versionName: projects/${PROJECT_ID}/secrets/FLASK_SECRET_KEY/versions/latest
+      env: FLASK_SECRET_KEY
 
 options:
   logging: CLOUD_LOGGING_ONLY
