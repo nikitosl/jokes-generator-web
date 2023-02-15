@@ -1,28 +1,34 @@
 version: '3.9'
 services:
-  tgapi:
-    image: nikitosl/jokes-generator-tgapi
+  ${TG_SERVICE_NAME}:
+    image: nikitosl/jokes-generator-tg-api
     build: tg
     depends_on:
-      - genapi
-      - genweb
+      - ${MODEL_SERVICE_NAME}
+      - ${WEB_SERVICE_NAME}
     environment:
       TG_API_TOKEN: ${TG_API_TK}
       NEWS_API_TOKEN: ${NEWS_API_TK}
+      MODEL_URL: ${MODEL_URL}
       TZ: ${TZ}
 
-  genapi:
-    image: nikitosl/jokes-generation-api
-    build: api
-    environment:
-      TZ: ${TZ}
-
-  genweb:
+  ${WEB_SERVICE_NAME}:
     image: nikitosl/jokes-generation-web
     build: web
     depends_on:
-      - genapi
+      - ${MODEL_SERVICE_NAME}
     ports:
       - "5555:5555"
     environment:
+      FLASK_SECRET_KEY: ${FLASK_SECRET_KEY}
+      MODEL_URL: ${MODEL_URL}
+      TZ: ${TZ}
+
+  ${MODEL_SERVICE_NAME}:
+    image: nikitosl/jokes-generation-model-api
+    build: api
+    environment:
+      MODEL_NAME: ${MODEL_NAME}
+      MODEL_REVISION: ${MODEL_REVISION}
+      MODEL_API_PORT: ${MODEL_API_PORT}
       TZ: ${TZ}
