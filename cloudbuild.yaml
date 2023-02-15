@@ -50,6 +50,9 @@ steps:
       - 'gcr.io/$PROJECT_ID/${_TG_SERVICE_NAME}:$COMMIT_SHA'
       - '--region'
       - 'europe-west2'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
 
   # Deploy WEB-SERVICE container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -62,6 +65,9 @@ steps:
       - 'gcr.io/$PROJECT_ID/${_WEB_SERVICE_NAME}:$COMMIT_SHA'
       - '--region'
       - 'europe-west2'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
 
   # Deploy MODEL-API container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -74,6 +80,9 @@ steps:
       - 'gcr.io/$PROJECT_ID/${_MODEL_SERVICE_NAME}:$COMMIT_SHA'
       - '--region'
       - 'europe-west2'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
 
 
 images:
