@@ -101,7 +101,7 @@ def main(news_api_token, tg_api_token, model_url):
     mark = int(mark)
     logging.info('Got punch and mark for news')
 
-    # Post news with punch to tg
+    # Post news with punch to tg_publisher
     post_message = make_tg_post(tg_api_token, title, punch, mark)
     if post_message:
         logging.info(f'Successfully posted new joke: {post_message}')
@@ -122,19 +122,15 @@ if __name__ == '__main__':
     wait_model_starting(model_url)
     logging.info("Model started")
 
-    runs_counter = 0
-    while True:
-        current_hour = datetime.datetime.now().hour
-        if (current_hour < 9) or (current_hour > 23):
-            logging.info('Sleeping...')
-            time.sleep(60 * 60)
-            continue
+    current_hour = datetime.datetime.now().hour
+    if (current_hour < 9) or (current_hour > 23):
+        logging.info('Sleeping...')
+        sys.exit(0)
 
-        logging.debug(f'----------- Run #{runs_counter} -----------')
-        try:
-            main(news_api_token, tg_api_token, model_url)
-        except Exception as e:
-            logging.error(f'While running main function error raised: {e}')
+    try:
+        main(news_api_token, tg_api_token, model_url)
+    except Exception as e:
+        logging.error(f'While running main function error raised: {e}')
+        sys.exit(1)
 
-        time.sleep(10 * 60)  # Sleep time in seconds
-        runs_counter += 1
+    sys.exit(0)

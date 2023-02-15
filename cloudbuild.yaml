@@ -1,8 +1,8 @@
 steps:
-  # Build image for TG-API
+  # Build image for TG-PUBLISHER
   - name: gcr.io/cloud-builders/docker
     args:
-      [ "build", "-t", "gcr.io/${PROJECT_ID}/${_TG_SERVICE_NAME}:$COMMIT_SHA", "tg" ]
+      [ "build", "-t", "gcr.io/${PROJECT_ID}/${_TG_SERVICE_NAME}:$COMMIT_SHA", "tg_publisher" ]
     env:
       - 'MODEL_URL=http://${_MODEL_SERVICE_NAME}:8080/'
       - 'TZ=Asia/Tbilisi'
@@ -26,7 +26,7 @@ steps:
       - 'MODEL_REVISION=latest'
       - 'TZ=Asia/Tbilisi'
 
-  # Push TG-API image to Container Registry
+  # Push TG-PUBLISHER image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: [ "push", "gcr.io/${PROJECT_ID}/${_TG_SERVICE_NAME}:$COMMIT_SHA" ]
 
@@ -68,22 +68,6 @@ steps:
       - 'managed'
       - '--allow-unauthenticated'
 
-  # Deploy TG-API container image to Cloud Run
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
-    args:
-      - 'run'
-      - 'deploy'
-      - '${_TG_SERVICE_NAME}'
-      - '--image'
-      - 'gcr.io/$PROJECT_ID/${_TG_SERVICE_NAME}:$COMMIT_SHA'
-      - '--region'
-      - 'europe-west2'
-      - '--platform'
-      - 'managed'
-      - '--allow-unauthenticated'
-
-
 images:
   - 'gcr.io/$PROJECT_ID/${_TG_SERVICE_NAME}:$COMMIT_SHA'
   - 'gcr.io/$PROJECT_ID/${_WEB_SERVICE_NAME}:$COMMIT_SHA'
@@ -92,7 +76,7 @@ images:
 
 availableSecrets:
   secretManager:
-    - versionName: projects/${PROJECT_ID}/secrets/tg-bot-token/versions/latest
+    - versionName: projects/${PROJECT_ID}/secrets/tg_publisher-bot-token/versions/latest
       env: 'TG_API_TOKEN'
     - versionName: projects/${PROJECT_ID}/secrets/news-api-token/versions/latest
       env: 'NEWS_API_TOKEN'

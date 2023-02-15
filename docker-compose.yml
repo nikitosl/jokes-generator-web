@@ -2,7 +2,7 @@ version: '3.9'
 services:
   ${TG_SERVICE_NAME}:
     image: nikitosl/jokes-generator-tg-api
-    build: tg
+    build: tg_publisher
     depends_on:
       - ${MODEL_SERVICE_NAME}
       - ${WEB_SERVICE_NAME}
