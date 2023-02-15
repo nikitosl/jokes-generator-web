@@ -42,3 +42,6 @@ availableSecrets:
       env: 'NEWS_API_TOKEN'
     - versionName: projects/$PROJECT_ID/secrets/FLASK_SECRET_KEY/versions/latest
       env: 'FLASK_SECRET_KEY'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
