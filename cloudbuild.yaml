@@ -4,7 +4,7 @@ steps:
     args:
       [ "build", "-t", "gcr.io/${PROJECT_ID}/${_TG_SERVICE_NAME}:$COMMIT_SHA", "tg" ]
     env:
-      - 'MODEL_URL=http://${_MODEL_SERVICE_NAME}:8888/'
+      - 'MODEL_URL=http://${_MODEL_SERVICE_NAME}:8080/'
       - 'TZ=Asia/Tbilisi'
     secretEnv: [ 'TG_API_TOKEN', 'NEWS_API_TOKEN' ]
 
@@ -13,7 +13,7 @@ steps:
     args:
       [ "build", "-t", "gcr.io/${PROJECT_ID}/${_WEB_SERVICE_NAME}:$COMMIT_SHA", "web" ]
     env:
-      - 'MODEL_URL=http://${_MODEL_SERVICE_NAME}:8888/'
+      - 'MODEL_URL=http://${_MODEL_SERVICE_NAME}:8080/'
       - 'TZ=Asia/Tbilisi'
     secretEnv: [ 'FLASK_SECRET_KEY' ]
 
@@ -24,7 +24,6 @@ steps:
     env:
       - 'MODEL_NAME=naltukhov/joke-generator-rus-t5'
       - 'MODEL_REVISION=latest'
-      - 'MODEL_API_PORT=8888'
       - 'TZ=Asia/Tbilisi'
 
   # Push TG-API image to Container Registry
@@ -38,21 +37,6 @@ steps:
   # Push MODEL-API image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: [ "push", "gcr.io/${PROJECT_ID}/${_MODEL_SERVICE_NAME}:$COMMIT_SHA" ]
-
-  # Deploy TG-API container image to Cloud Run
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
-    args:
-      - 'run'
-      - 'deploy'
-      - '${_TG_SERVICE_NAME}'
-      - '--image'
-      - 'gcr.io/$PROJECT_ID/${_TG_SERVICE_NAME}:$COMMIT_SHA'
-      - '--region'
-      - 'europe-west2'
-      - '--platform'
-      - 'managed'
-      - '--allow-unauthenticated'
 
   # Deploy WEB-SERVICE container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -78,6 +62,21 @@ steps:
       - '${_MODEL_SERVICE_NAME}'
       - '--image'
       - 'gcr.io/$PROJECT_ID/${_MODEL_SERVICE_NAME}:$COMMIT_SHA'
+      - '--region'
+      - 'europe-west2'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
+  # Deploy TG-API container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - '${_TG_SERVICE_NAME}'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/${_TG_SERVICE_NAME}:$COMMIT_SHA'
       - '--region'
       - 'europe-west2'
       - '--platform'

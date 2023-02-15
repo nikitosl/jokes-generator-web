@@ -71,7 +71,9 @@ if __name__ == '__main__':
         logging.debug(f'Got revision from env: {revision}')
     model_name = os.getenv("MODEL_NAME")
     logging.debug(f'Got model_name from env: {model_name}')
-    port = os.getenv("MODEL_API_PORT")
+
+    # Port for gcp healthcheck
+    port = os.environ.get("PORT", 8080)
     logging.debug(f'Got port from env: {port}')
 
     # model variable refers to the global variable

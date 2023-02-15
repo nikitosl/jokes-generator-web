@@ -1,13 +1,15 @@
-import requests
+import logging
 import os
+import sys
+
+import requests
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SubmitField
+from wtforms import StringField, SubmitField
 from wtforms import validators
+
 from test_model_api import test_model_api, wait_model_starting
-import logging
-import sys
 
 logging.basicConfig(format='%(asctime)s:%(name)s:%(levelname)s:%(message)s',
                     stream=sys.stdout,
@@ -91,6 +93,10 @@ def index():
 
 
 if __name__ == '__main__':
+    # Port for gcp healthcheck
+    port = os.environ.get("PORT", 8080)
+    logging.debug(f'Got port from env: {port}')
+
     # Wait model_api to start
     wait_model_starting(model_url)
 
@@ -101,4 +107,4 @@ if __name__ == '__main__':
     except:
         logging.warning('Check model api it raised error when request')
 
-    app.run(host='0.0.0.0', port=5555)
+    app.run(host='0.0.0.0', port=port)

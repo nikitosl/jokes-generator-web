@@ -18,10 +18,11 @@ services:
     depends_on:
       - ${MODEL_SERVICE_NAME}
     ports:
-      - "5555:5555"
+      - "${WEB_PORT}:${WEB_PORT}"
     environment:
       FLASK_SECRET_KEY: ${FLASK_SECRET_KEY}
       MODEL_URL: ${MODEL_URL}
+      PORT: ${WEB_PORT}
       TZ: ${TZ}
 
   ${MODEL_SERVICE_NAME}:
@@ -30,5 +31,5 @@ services:
     environment:
       MODEL_NAME: ${MODEL_NAME}
       MODEL_REVISION: ${MODEL_REVISION}
-      MODEL_API_PORT: ${MODEL_API_PORT}
+      PORT: ${MODEL_API_PORT}
       TZ: ${TZ}
