@@ -6,8 +6,11 @@ COPY ./static /joke_gen/static
 COPY ./templates /joke_gen/templates
 
 ENV PYTHONPATH=/joke_gen
-
 WORKDIR /joke_gen
+
+ARG MODEL_URL
+ARG TZ
+ARG FLASK_SECRET_KEY
 
 RUN pip install --upgrade pip && pip install -r requirements.txt
 

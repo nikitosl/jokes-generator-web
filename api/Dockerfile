@@ -5,6 +5,10 @@ COPY ./requirements.txt /joke_gen/
 
 ENV PYTHONPATH=/joke_gen
 
+ARG MODEL_NAME
+ARG MODEL_REVISION
+ARG TZ
+
 WORKDIR /joke_gen
 
 RUN pip install --upgrade pip && pip install -r requirements.txt
