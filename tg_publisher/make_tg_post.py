@@ -1,4 +1,3 @@
-import datetime
 import logging
 import os
 import sys
@@ -122,10 +121,10 @@ if __name__ == '__main__':
     # wait_model_starting(model_url)
     # logging.info("Model started")
 
-    current_hour = datetime.datetime.now().hour
-    if (current_hour < 9) or (current_hour > 23):
-        logging.info('Sleeping...')
-        sys.exit(0)
+    # current_hour = datetime.datetime.now().hour
+    # if (current_hour < 9) or (current_hour > 23):
+    #     logging.info('Sleeping...')
+    #     sys.exit(0)
 
     try:
         main(news_api_token, tg_api_token, model_url)
