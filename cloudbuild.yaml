@@ -76,7 +76,7 @@ images:
 
 availableSecrets:
   secretManager:
-    - versionName: projects/${PROJECT_ID}/secrets/tg_publisher-bot-token/versions/latest
+    - versionName: projects/${PROJECT_ID}/secrets/tg-bot-token/versions/latest
       env: 'TG_API_TOKEN'
     - versionName: projects/${PROJECT_ID}/secrets/news-api-token/versions/latest
       env: 'NEWS_API_TOKEN'
