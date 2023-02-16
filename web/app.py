@@ -9,8 +9,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms import validators
 
-from test_model_api import test_model_api, wait_model_starting
-
 logging.basicConfig(format='%(asctime)s:%(name)s:%(levelname)s:%(message)s',
                     stream=sys.stdout,
                     level=logging.DEBUG)
@@ -97,14 +95,13 @@ if __name__ == '__main__':
     port = os.environ.get("PORT", 8080)
     logging.debug(f'Got port from env: {port}')
 
-    # Wait model_api to start
-    wait_model_starting(model_url)
-
-    # Test model api
-    try:
-        if not test_model_api(model_url):
-            logging.warning('Check model api, it doesnt pass tests')
-    except:
-        logging.warning('Check model api it raised error when request')
+    # # Wait model_api to start
+    # wait_model_starting(model_url)
+    # # Test model api
+    # try:
+    #     if not test_model_api(model_url):
+    #         logging.warning('Check model api, it doesnt pass tests')
+    # except:
+    #     logging.warning('Check model api it raised error when request')
 
     app.run(host='0.0.0.0', port=port)
