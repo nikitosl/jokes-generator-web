@@ -50,7 +50,7 @@ def request_punch_mark(news, model_url):
     :param news:
     :return: Tuple[str, str]: punch, mark
     """
-    response = requests.post(url=f'{model_url}predict',
+    response = requests.post(url=f'{model_url}/predict',
                              json={'setup': news,
                                    'inspiration': None,
                                    'num_return_sequences': 5,
