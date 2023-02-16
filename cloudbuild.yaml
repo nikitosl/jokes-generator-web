@@ -66,8 +66,10 @@ steps:
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
+      - '--cpu'
+      - '4'
       - '--memory'
-      - '6Gi'
+      - '8Gi'
     timeout: 3600s
 
 images:
