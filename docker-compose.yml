@@ -1,22 +1,22 @@
 version: '3.9'
 services:
-  ${TG_SERVICE_NAME}:
+  tg_publisher:
     image: nikitosl/jokes-generator-tg-api
     build: tg_publisher
     depends_on:
-      - ${MODEL_SERVICE_NAME}
-      - ${WEB_SERVICE_NAME}
+      - model_api
+      - web
     environment:
       TG_API_TOKEN: ${TG_API_TK}
       NEWS_API_TOKEN: ${NEWS_API_TK}
       MODEL_URL: ${MODEL_URL}
       TZ: ${TZ}
 
-  ${WEB_SERVICE_NAME}:
+  web:
     image: nikitosl/jokes-generation-web
     build: web
     depends_on:
-      - ${MODEL_SERVICE_NAME}
+      - model_api
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
     environment:
@@ -25,7 +25,7 @@ services:
       PORT: ${WEB_PORT}
       TZ: ${TZ}
 
-  ${MODEL_SERVICE_NAME}:
+  model_api:
     image: nikitosl/jokes-generation-model-api
     build: api
     environment:
