@@ -1,32 +1,30 @@
 steps:
   # Build image for TG-PUBLISHER
   - name: gcr.io/cloud-builders/docker
-    args: [
-      "build", "-t", "gcr.io/${PROJECT_ID}/${_TG_SERVICE_NAME}:$COMMIT_SHA",
-      "--build-arg=MODEL_URL=http://${_MODEL_SERVICE_NAME}:8080/",
-      "--build-arg=TZ=Asia/Tbilisi",
-      "--build-arg=TG_API_TOKEN=$$TG_API_TOKEN",
-      "--build-arg=NEWS_API_TOKEN=$$NEWS_API_TOKEN",
-      "tg_publisher" ]
+    args:
+      [ "build", "-t", "gcr.io/${PROJECT_ID}/${_TG_SERVICE_NAME}:$COMMIT_SHA", "tg_publisher" ]
+    env:
+      - 'MODEL_URL=http://${_MODEL_SERVICE_NAME}:8080/'
+      - 'TZ=Asia/Tbilisi'
     secretEnv: [ 'TG_API_TOKEN', 'NEWS_API_TOKEN' ]
 
   # Build image for WEB-SERVICE
   - name: gcr.io/cloud-builders/docker
-    args: [
-      "build", "-t", "gcr.io/${PROJECT_ID}/${_WEB_SERVICE_NAME}:$COMMIT_SHA",
-      "--build-arg=MODEL_URL=http://${_MODEL_SERVICE_NAME}:8080/",
-      "--build-arg=TZ=Asia/Tbilisi",
-      "--build-arg=FLASK_SECRET_KEY=$$FLASK_SECRET_KEY",
-      "web" ]
+    args:
+      [ "build", "-t", "gcr.io/${PROJECT_ID}/${_WEB_SERVICE_NAME}:$COMMIT_SHA", "web" ]
+    env:
+      - 'MODEL_URL=http://${_MODEL_SERVICE_NAME}:8080/'
+      - 'TZ=Asia/Tbilisi'
     secretEnv: [ 'FLASK_SECRET_KEY' ]
 
   # Build image for MODEL-API
   - name: gcr.io/cloud-builders/docker
-    args: [ "build", "-t", "gcr.io/${PROJECT_ID}/${_MODEL_SERVICE_NAME}:$COMMIT_SHA",
-            "--build-arg=MODEL_NAME=naltukhov/joke-generator-rus-t5",
-            "--build-arg=MODEL_REVISION=latest",
-            "--build-arg=TZ=Asia/Tbilisi",
-            "api" ]
+    args:
+      [ "build", "-t", "gcr.io/${PROJECT_ID}/${_MODEL_SERVICE_NAME}:$COMMIT_SHA", "api" ]
+    env:
+      - 'MODEL_NAME=naltukhov/joke-generator-rus-t5'
+      - 'MODEL_REVISION=latest'
+      - 'TZ=Asia/Tbilisi'
 
   # Push TG-PUBLISHER image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
