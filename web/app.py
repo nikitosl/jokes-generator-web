@@ -26,7 +26,7 @@ Bootstrap(app)
 
 
 def request_punches(setup, inspiration, num_return_sequences, temperature):
-    response = requests.post(url=f'{model_url}predict',
+    response = requests.post(url=f'{model_url}/predict',
                              json={'setup': setup,
                                    'inspiration': inspiration,
                                    'num_return_sequences': num_return_sequences,

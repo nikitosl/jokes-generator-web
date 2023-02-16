@@ -20,7 +20,7 @@ def test_model_api(url):
     get_response = requests.get(url)
     print(f'Response code: {get_response.status_code}; response content: {get_response.text}')
 
-    post_url = url + 'test_predict'
+    post_url = url + '/test_predict'
     print(f'Post response to {post_url}')
 
     post_response = requests.post(post_url, json={'setup': 'начало шутки',
@@ -33,4 +33,4 @@ def test_model_api(url):
 
 
 if __name__ == '__main__':
-    test_model_api('http://127.0.0.1:8888/')
+    test_model_api('http://127.0.0.1:8888')
