@@ -132,5 +132,4 @@ if __name__ == '__main__':
     except Exception as e:
         logging.error(f'While running main function error raised: {e}')
         sys.exit(1)
-
     sys.exit(0)
