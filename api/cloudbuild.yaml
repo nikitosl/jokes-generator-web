@@ -1,0 +1,41 @@
+steps:
+  # Build image for MODEL-API
+  - name: gcr.io/cloud-builders/docker
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        docker build -t gcr.io/${PROJECT_ID}/${_MODEL_SERVICE_NAME}:$COMMIT_SHA --build-arg=MODEL_NAME=naltukhov/joke-generator-rus-t5 --build-arg=MODEL_REVISION=latest --build-arg=TZ=Asia/Tbilisi api
+
+  # Push MODEL-API image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ "push", "gcr.io/${PROJECT_ID}/${_MODEL_SERVICE_NAME}:$COMMIT_SHA" ]
+
+  # Deploy MODEL-API container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - '${_MODEL_SERVICE_NAME}'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/${_MODEL_SERVICE_NAME}:$COMMIT_SHA'
+      - '--region'
+      - 'europe-west2'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--cpu'
+      - '4'
+      - '--memory'
+      - '16Gi'
+      - '--max-instances'
+      - '1'
+      - '--timeout'
+      - '5m'
+
+images:
+  - 'gcr.io/$PROJECT_ID/${_MODEL_SERVICE_NAME}:$COMMIT_SHA'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
