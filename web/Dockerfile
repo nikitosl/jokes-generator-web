@@ -11,6 +11,9 @@ WORKDIR /joke_gen
 ARG MODEL_URL
 ARG TZ
 ARG FLASK_SECRET_KEY
+ENV MODEL_URL=${MODEL_URL}
+ENV TZ=${TZ}
+ENV FLASK_SECRET_KEY=${FLASK_SECRET_KEY}
 
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
