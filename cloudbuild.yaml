@@ -8,7 +8,7 @@ steps:
       "--build-arg=MODEL_URL=http://${_MODEL_SERVICE_NAME}:8080/",
       "--build-arg=TZ=Asia/Tbilisi",
       "--build-arg=TG_API_TOKEN=$$TG_API_TOKEN",
-      "--build-arg=NEWS_API_TOKEN=$NEWS_API_TOKEN",
+      "--build-arg=NEWS_API_TOKEN=$$NEWS_API_TOKEN",
       "tg_publisher" ]
 
   # Build image for WEB-SERVICE
