@@ -118,9 +118,9 @@ if __name__ == '__main__':
     model_url = os.getenv("MODEL_URL")
     logging.debug(f'Got model_url from env: {model_url}')
 
-    logging.info("Waiting model start")
-    wait_model_starting(model_url)
-    logging.info("Model started")
+    # logging.info("Waiting model start")
+    # wait_model_starting(model_url)
+    # logging.info("Model started")
 
     current_hour = datetime.datetime.now().hour
     if (current_hour < 9) or (current_hour > 23):
