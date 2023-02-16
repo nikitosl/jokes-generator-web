@@ -72,7 +72,7 @@ images:
   - 'gcr.io/$PROJECT_ID/${_TG_SERVICE_NAME}:$COMMIT_SHA'
   - 'gcr.io/$PROJECT_ID/${_WEB_SERVICE_NAME}:$COMMIT_SHA'
   - 'gcr.io/$PROJECT_ID/${_MODEL_SERVICE_NAME}:$COMMIT_SHA'
-
+timeout: 660s
 
 availableSecrets:
   secretManager:
