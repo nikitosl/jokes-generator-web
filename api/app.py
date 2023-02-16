@@ -73,7 +73,7 @@ if __name__ == '__main__':
     logging.debug(f'Got model_name from env: {model_name}')
 
     # Port for gcp healthcheck
-    port = os.environ.get("PORT", 8080)
+    port = os.getenv("PORT")
     logging.debug(f'Got port from env: {port}')
 
     logging.debug('Starting loading model')

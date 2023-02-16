@@ -14,6 +14,7 @@ logging.basicConfig(format='%(asctime)s:%(name)s:%(levelname)s:%(message)s',
                     level=logging.DEBUG)
 
 secret_key = os.getenv("FLASK_SECRET_KEY")
+logging.debug(f'Got flask_secret_key from env: {secret_key}')
 model_url = os.getenv("MODEL_URL")
 logging.debug(f'Got model_url from env: {model_url}')
 
@@ -92,7 +93,7 @@ def index():
 
 if __name__ == '__main__':
     # Port for gcp healthcheck
-    port = os.environ.get("PORT", 8080)
+    port = os.getenv("PORT")
     logging.debug(f'Got port from env: {port}')
 
     # # Wait model_api to start
