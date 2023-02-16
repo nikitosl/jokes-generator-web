@@ -69,7 +69,11 @@ steps:
       - '--cpu'
       - '4'
       - '--memory'
-      - '8Gi'
+      - '16Gi'
+      - '--max-instances'
+      - '1'
+      - '--timeout'
+      - '5m'
     timeout: 3600s
 
 images:
