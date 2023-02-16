@@ -62,13 +62,13 @@ def get_prediction() -> List[Dict]:
 
 
 if __name__ == '__main__':
-    logging.debug('Starting loading model')
-
     revision = os.getenv("MODEL_REVISION")
     if revision == "latest":
         revision = None
+        logging.debug("Using latest model version")
     else:
         logging.debug(f'Got revision from env: {revision}')
+
     model_name = os.getenv("MODEL_NAME")
     logging.debug(f'Got model_name from env: {model_name}')
 
@@ -76,6 +76,7 @@ if __name__ == '__main__':
     port = os.environ.get("PORT", 8080)
     logging.debug(f'Got port from env: {port}')
 
+    logging.debug('Starting loading model')
     # model variable refers to the global variable
     model = T5GenerationModel()
     model.load_model_from_hub(model_name=model_name,
