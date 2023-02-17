@@ -12,30 +12,6 @@ logging.basicConfig(format='%(asctime)s:%(name)s:%(levelname)s:%(message)s',
                     stream=sys.stdout,
                     level=logging.DEBUG)
 app = Flask(__name__)
-revision = os.getenv("MODEL_REVISION")
-if revision == "latest":
-    revision = None
-    logging.debug("Using latest model version")
-else:
-    logging.debug(f'Got revision from env: {revision}')
-
-model_name = os.getenv("MODEL_NAME")
-logging.debug(f'Got model_name from env: {model_name}')
-
-# Port for gcp healthcheck
-port = os.getenv("PORT")
-logging.debug(f'Got port from env: {port}')
-
-logging.debug('Starting loading model')
-# model variable refers to the global variable
-model = T5GenerationModel()
-model.load_model_from_hub(model_name=model_name,
-                          model_type="pytorch",
-                          use_auth_token=False,
-                          force_download=True,
-                          revision=revision)
-logging.debug('Model was successfully loaded!')
-
 
 @app.route('/')
 def default_route():  # put application's code here
@@ -86,4 +62,28 @@ def get_prediction() -> List[Dict]:
 
 
 if __name__ == '__main__':
+    revision = os.getenv("MODEL_REVISION")
+    if revision == "latest":
+        revision = None
+        logging.debug("Using latest model version")
+    else:
+        logging.debug(f'Got revision from env: {revision}')
+
+    model_name = os.getenv("MODEL_NAME")
+    logging.debug(f'Got model_name from env: {model_name}')
+
+    # Port for gcp healthcheck
+    port = os.getenv("PORT")
+    logging.debug(f'Got port from env: {port}')
+
+    logging.debug('Starting loading model')
+    # model variable refers to the global variable
+    model = T5GenerationModel()
+    model.load_model_from_hub(model_name=model_name,
+                              model_type="pytorch",
+                              use_auth_token=False,
+                              force_download=True,
+                              revision=revision)
+    logging.debug('Model was successfully loaded!')
+
     serve(app, host='0.0.0.0', port=port)

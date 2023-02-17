@@ -10,4 +10,4 @@ torchaudio==0.13.1
 
 pandas==1.5.2
 
-pyuwsgi
+waitress
