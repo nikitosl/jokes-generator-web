@@ -4,6 +4,7 @@ import sys
 from typing import List, Dict
 
 from flask import Flask, request
+from waitress import serve
 
 from model_utils import T5GenerationModel
 
@@ -85,4 +86,4 @@ def get_prediction() -> List[Dict]:
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=port)
+    serve(app, host='0.0.0.0', port=port)
