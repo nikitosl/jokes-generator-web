@@ -29,7 +29,7 @@ steps:
       - '--cpu'
       - '4'
       - '--memory'
-      - '8Gi'
+      - '10Gi'
       - '--max-instances'
       - '1'
       - '--timeout'
