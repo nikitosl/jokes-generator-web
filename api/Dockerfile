@@ -16,6 +16,4 @@ WORKDIR /joke_gen
 
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-EXPOSE 8888
-
-CMD ["python", "app.py"]
+CMD ["uwsgi", "--http", "0.0.0.0:8080", "--wsgi-file", "app.py", "--callable", "app"]

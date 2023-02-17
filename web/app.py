@@ -23,6 +23,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = secret_key
 # Flask-Bootstrap requires this line
 Bootstrap(app)
+port = os.getenv("PORT")
+logging.debug(f'Got port from env: {port}')
 
 
 def request_punches(setup, inspiration, num_return_sequences, temperature):
@@ -91,18 +93,7 @@ def index():
     return render_template('index.html', form=form, error_message=error_message)
 
 
+application = app
+
 if __name__ == '__main__':
-    # Port for gcp healthcheck
-    port = os.getenv("PORT")
-    logging.debug(f'Got port from env: {port}')
-
-    # # Wait model_api to start
-    # wait_model_starting(model_url)
-    # # Test model api
-    # try:
-    #     if not test_model_api(model_url):
-    #         logging.warning('Check model api, it doesnt pass tests')
-    # except:
-    #     logging.warning('Check model api it raised error when request')
-
     app.run(host='0.0.0.0', port=port)

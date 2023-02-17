@@ -17,6 +17,4 @@ ENV FLASK_SECRET_KEY=${FLASK_SECRET_KEY}
 
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-EXPOSE 5555
-
-CMD ["python", "app.py"]
+CMD ["uwsgi", "--http", "0.0.0.0:8080", "--wsgi-file", "app.py", "--callable", "app"]

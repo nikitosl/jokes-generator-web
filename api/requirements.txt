@@ -9,3 +9,5 @@ torchvision==0.14.1
 torchaudio==0.13.1
 
 pandas==1.5.2
+
+uWSGI==2.0.21
