@@ -8,13 +8,15 @@ ENV PYTHONPATH=/joke_gen
 ARG MODEL_NAME
 ARG MODEL_REVISION
 ARG TZ
+ARG PORT
 ENV MODEL_NAME=${MODEL_NAME}
 ENV MODEL_REVISION=${MODEL_REVISION}
 ENV TZ=${TZ}
+ENV PORT=${PORT}
 
 WORKDIR /joke_gen
 
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-EXPOSE 8080
+EXPOSE ${PORT}
 CMD ["python", "app.py"]

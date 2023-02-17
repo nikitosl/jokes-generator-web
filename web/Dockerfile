@@ -11,11 +11,13 @@ WORKDIR /joke_gen
 ARG MODEL_URL
 ARG TZ
 ARG FLASK_SECRET_KEY
+ARG PORT
 ENV MODEL_URL=${MODEL_URL}
 ENV TZ=${TZ}
 ENV FLASK_SECRET_KEY=${FLASK_SECRET_KEY}
+ENV PORT=${PORT}
 
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-EXPOSE 8080
-CMD ["uwsgi", "--http", "0.0.0.0:8080", "--wsgi-file", "app.py", "--callable", "app", "--workers", "2", "--cpu-affinity", "1"]
+EXPOSE ${PORT}
+CMD ["uwsgi", "--http", "0.0.0.0:${PORT}", "--wsgi-file", "app.py", "--callable", "app"]
