@@ -54,7 +54,7 @@ def request_punch_mark(news, model_url, model_num_jokes_for_generation, model_te
                                    'inspiration': None,
                                    'num_return_sequences': model_num_jokes_for_generation,
                                    'temperature': 1},
-                             timeout=4 * 60)
+                             timeout=20 * 60)
     if response.status_code == 200:
         # Best punch -> first punch, sorted by mark and len of punch in descending order
         punches = response.json()
