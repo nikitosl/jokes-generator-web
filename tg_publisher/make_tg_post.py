@@ -43,7 +43,7 @@ def get_news(api_token):
             return title, time, source, link
 
 
-def request_punch_mark(news, model_url):
+def request_punch_mark(news, model_url, model_num_jokes_for_generation, model_temperature):
     """
 
     :param news:
@@ -52,7 +52,7 @@ def request_punch_mark(news, model_url):
     response = requests.post(url=f'{model_url}/predict',
                              json={'setup': news,
                                    'inspiration': None,
-                                   'num_return_sequences': 5,
+                                   'num_return_sequences': model_num_jokes_for_generation,
                                    'temperature': 1},
                              timeout=4 * 60)
     if response.status_code == 200:
@@ -79,7 +79,10 @@ def make_tg_post(tg_api_token, title, punch, mark=0):
 #     return punch_tuple[2], punch_tuple[3]
 
 
-def main(news_api_token, tg_api_token, model_url):
+def main(news_api_token, tg_api_token,
+         model_url,
+         model_num_jokes_for_generation,
+         model_temperature):
     # Get last news
     news = get_news(news_api_token)
     if not news:
@@ -96,7 +99,12 @@ def main(news_api_token, tg_api_token, model_url):
     logging.info('Checked news publish time is not equal to previous publish time')
 
     # Get punch
-    punch, mark = request_punch_mark(title, model_url)
+    punch, mark = request_punch_mark(
+        title,
+        model_url,
+        model_num_jokes_for_generation,
+        model_temperature)
+
     mark = int(mark)
     logging.info('Got punch and mark for news')
 
@@ -116,6 +124,10 @@ if __name__ == '__main__':
     logging.debug(f'Got tg_api_token from env: {tg_api_token}')
     model_url = os.getenv("MODEL_URL")
     logging.debug(f'Got model_url from env: {model_url}')
+    model_num_jokes_for_generation = os.environ.get("MODEL_NUM_JOKES_FOR_GENERATION", 5)
+    logging.debug(f'model_num_jokes_for_generation: {model_num_jokes_for_generation}')
+    model_temperature = os.environ.get("MODEL_TEMPERATURE", 1)
+    logging.debug(f'model_temperature: {model_temperature}')
 
     # logging.info("Waiting model start")
     # wait_model_starting(model_url)
@@ -127,7 +139,7 @@ if __name__ == '__main__':
     #     sys.exit(0)
 
     try:
-        main(news_api_token, tg_api_token, model_url)
+        main(news_api_token, tg_api_token, model_url, model_num_jokes_for_generation, model_temperature)
     except Exception as e:
         logging.error(f'While running main function error raised: {e}')
         sys.exit(1)
