@@ -33,7 +33,7 @@ steps:
       - '--max-instances'
       - '1'
       - '--timeout'
-      - '5m'
+      - '10m'
 
 images:
   - 'gcr.io/$PROJECT_ID/${_MODEL_SERVICE_NAME}:$COMMIT_SHA'
