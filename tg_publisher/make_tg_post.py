@@ -62,7 +62,7 @@ def request_punch_mark(news, model_url, model_num_jokes_for_generation, model_te
         return punches[0]['punch'], punches[0]['mark']
 
 
-def make_tg_post(tg_api_token, title, punch, mark=0):
+def make_tg_post(tg_api_token, title, punch, mark=0.0):
     post_text = f"""<strong>{title}</strong>\n{punch}"""
 
     response = requests.get(f"https://api.telegram.org/bot{tg_api_token}/sendMessage",
@@ -105,7 +105,7 @@ def main(news_api_token, tg_api_token,
         model_num_jokes_for_generation,
         model_temperature)
 
-    mark = int(mark)
+    mark = float(mark)
     logging.info('Got punch and mark for news')
 
     # Post news with punch to tg_publisher
