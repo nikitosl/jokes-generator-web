@@ -1,6 +1,7 @@
-from typing import List, Dict, Tuple
+from typing import List, Tuple
+
+import math
 from transformers import T5Tokenizer, T5ForConditionalGeneration
-import pandas as pd
 
 
 class T5GenerationModel:
@@ -66,8 +67,9 @@ class T5GenerationModel:
     def generate_mark(self, joke: str) -> str:
         input_ids = self.tokenizer(self.mark_prefix + joke, return_tensors="pt").input_ids
         predict_mark_ids = self.model.generate(input_ids).tolist()
-        predict_mark = self.tokenizer.decode(predict_mark_ids[0], skip_special_tokens=True)
-        return predict_mark
+        predict_mark_str = self.tokenizer.decode(predict_mark_ids[0], skip_special_tokens=True)
+        predict_mark = math.sqrt(len(predict_mark_str))
+        return str(predict_mark)
 
     def inference(self, setup: str, inspirations: List = None,
                   num_return_sequences: int = 5, temperature: float = 1) -> List[Tuple[str, str, str, str]]:
